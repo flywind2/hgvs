@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 from setuptools import setup
-from pip.req import parse_requirements
-from pip.download import PipSession
 import sys
 
 description = ("This library provides a simple to use Python API for parsing, "
@@ -18,6 +16,9 @@ def main():
                "You have version %d.%d" % python_version[:2])
         sys.exit(1)
 
+    with open('requirements-dev.txt') as f:
+        tests_requires = f.read().strip().split('\n')
+
     setup(
         name='pyhgvs',
         version='0.9.4',
@@ -32,9 +33,7 @@ def main():
         },
         scripts=[],
         install_requires=['pip>=1.2'],
-        tests_require=[str(line.req) for line in
-                       parse_requirements('requirements-dev.txt',
-                                          session=PipSession())],
+        tests_require=tests_requires
     )
 
 if __name__ == '__main__':
